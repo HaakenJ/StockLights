@@ -13,5 +13,10 @@ response = requests.get(
 )
 
 jsonResponse = response.json()
+price = jsonResponse['Global Quote']['05. price']
+purchasePrice = 26.46
 
-print(jsonResponse['Global Quote']['05. price'])
+if float(price) > 26.46:
+    print('You\'re in the green!')
+else:
+    print('You\'re in the red...')
