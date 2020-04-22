@@ -1,10 +1,14 @@
 import requests
-from config import API_KEY
+from config import API_KEY, LIGHT_TOKEN
 
-url = 'https://www.alphavantage.co/query'
+STOCK_URL = 'https://www.alphavantage.co/query'
+LIGHT_URL = 'https://api.lifx.com/v1/lights/all/state'
+LIGHT_HEADERS = {
+    'Authorization': f'Bearer {LIGHT_TOKEN}'
+}
 
-response = requests.get(
-    url,
+stockResponse = requests.get(
+    STOCK_URL,
     params={
         'function': 'GLOBAL_QUOTE',
         'symbol': 'ALK',
@@ -12,11 +16,32 @@ response = requests.get(
     }
 )
 
-jsonResponse = response.json()
+jsonResponse = stockResponse.json()
 price = jsonResponse['Global Quote']['05. price']
 purchasePrice = 26.46
 
 if float(price) > 26.46:
-    print('You\'re in the green!')
+    lightResponse = requests.put(
+        LIGHT_URL,
+        data={
+            'power': 'on',
+            'color': 'green',
+            'brightness': 0.1
+        },
+        headers=LIGHT_HEADERS
+    )
+
+    print(lightResponse.json())
 else:
-    print('You\'re in the red...')
+    lightResponse = requests.put(
+        LIGHT_URL,
+        data={
+            'power': 'on',
+            'color': 'red',
+            'brightness': 0.1
+        },
+        headers=LIGHT_HEADERS
+    )
+
+    print(lightResponse.status_code)
+
