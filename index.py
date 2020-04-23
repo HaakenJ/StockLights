@@ -7,6 +7,7 @@ LIGHT_HEADERS = {
     'Authorization': f'Bearer {LIGHT_TOKEN}'
 }
 
+# The stocks currently owned.
 stocks = {
     'ALK': {
         'price': 0,
@@ -34,11 +35,8 @@ stocks = {
         'shares': 1
     }
 }
-
-for stock in stocks:
-    # print(stock['price'], stock['cost'], stock['shares'])
-    print(stock)
-
+   
+# Populate the current prices for all stocks owned.
 for stock in stocks:
     stockResponse = requests.get(
         STOCK_URL,
@@ -51,11 +49,9 @@ for stock in stocks:
 
     jsonResponse = stockResponse.json()
     print(jsonResponse)
-    # price = jsonResponse['Global Quote']['05. price']
+    price = jsonResponse['Global Quote']['05. price']
 
-    # stocks[symbol]['price'] = price
-
-print(stocks)
+    stocks[stock]['price'] = price
 
 
 purchasePrice = 26.46
