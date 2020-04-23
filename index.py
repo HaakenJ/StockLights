@@ -7,21 +7,26 @@ LIGHT_HEADERS = {
     'Authorization': f'Bearer {LIGHT_TOKEN}'
 }
 symbols = ['ALK', 'MSFT', 'CCL', 'GME', 'NCLH']
+results = {}
 
-stockResponse = requests.get(
-    STOCK_URL,
-    params={
-        'function': 'GLOBAL_QUOTE',
-        'symbol': 'ALK',
-        'apikey': API_KEY
-    }
-)
+for symbol in symbols:
+    stockResponse = requests.get(
+        STOCK_URL,
+        params={
+            'function': 'GLOBAL_QUOTE',
+            'symbol': symbol,
+            'apikey': API_KEY
+        }
+    )
 
-jsonResponse = stockResponse.json()
+    jsonResponse = stockResponse.json()
+    price = jsonResponse['Global Quote']['05. price']
 
-print(jsonResponse)
+    results[symbol] = price
 
-price = jsonResponse['Global Quote']['05. price']
+print(results)
+
+
 purchasePrice = 26.46
 
 # if float(price) > 26.46:
