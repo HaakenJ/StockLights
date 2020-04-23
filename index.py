@@ -58,8 +58,10 @@ for stock in stocks:
     
 
     stocks[stock]['price'] = price
-
     totalShares = stocks[stock]['shares']
+
+    # Calculate total portfolio cost.
+    totalPortfolioCost += (stocks[stock]['cost'] * totalShares)
 
     # Add the stock price to the currentValue
     currentPortfolioValue = round(currentPortfolioValue + (float(price) * totalShares), 2)
@@ -68,9 +70,12 @@ for stock in stocks:
     print(f'---shares: {totalShares}')
     print(f'---currentValue: {float(price) * totalShares}')
     print(f'---currentPortfolioValue: {currentPortfolioValue}')
+    print(f'---totalPortfolioCost: {totalPortfolioCost}')
     print('------------------------------------------------------')
 
-    # Calculate total portfolio cost.
+print(f'---currentPortfolioValue: {currentPortfolioValue}')
+print(f'---totalPortfolioCost: {totalPortfolioCost}')
+print('------------------------------------------------------')
 
 
 # if float(price) > 26.46:
