@@ -78,28 +78,25 @@ print(f'---totalPortfolioCost: {totalPortfolioCost}')
 print('------------------------------------------------------')
 
 
-# if float(price) > 26.46:
-#     lightResponse = requests.put(
-#         LIGHT_URL,
-#         data={
-#             'power': 'on',
-#             'color': 'green',
-#             'brightness': 0.1
-#         },
-#         headers=LIGHT_HEADERS
-#     )
+if currentPortfolioValue > totalPortfolioCost:
+    lightResponse = requests.put(
+        LIGHT_URL,
+        data={
+            'power': 'on',
+            'color': 'green',
+            'brightness': 0.1
+        },
+        headers=LIGHT_HEADERS
+    )
 
-#     print(lightResponse.json())
-# else:
-#     lightResponse = requests.put(
-#         LIGHT_URL,
-#         data={
-#             'power': 'on',
-#             'color': 'red',
-#             'brightness': 0.1
-#         },
-#         headers=LIGHT_HEADERS
-#     )
-
-#     print(lightResponse.status_code)
-
+    print(lightResponse.json())
+else:
+    lightResponse = requests.put(
+        LIGHT_URL,
+        data={
+            'power': 'on',
+            'color': 'red',
+            'brightness': 0.1
+        },
+        headers=LIGHT_HEADERS
+    )
