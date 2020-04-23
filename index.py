@@ -6,25 +6,56 @@ LIGHT_URL = 'https://api.lifx.com/v1/lights/all/state'
 LIGHT_HEADERS = {
     'Authorization': f'Bearer {LIGHT_TOKEN}'
 }
-symbols = ['ALK', 'MSFT', 'CCL', 'GME', 'NCLH']
-results = {}
 
-for symbol in symbols:
+stocks = {
+    'ALK': {
+        'price': 0,
+        'cost': 26.46,
+        'shares': 14
+    },
+    'CCL': {
+        'price': 0,
+        'cost': 11.90,
+        'shares': 10
+    },
+    'MSFT': {
+        'price': 0,
+        'cost': 159.00,
+        'shares': 2
+    },
+    'GME': {
+        'price': 0,
+        'cost': 4.66,
+        'shares': 1
+    },
+    'NCLH': {
+        'price': 0,
+        'cost': 11.40,
+        'shares': 1
+    }
+}
+
+for stock in stocks:
+    # print(stock['price'], stock['cost'], stock['shares'])
+    print(stock)
+
+for stock in stocks:
     stockResponse = requests.get(
         STOCK_URL,
         params={
             'function': 'GLOBAL_QUOTE',
-            'symbol': symbol,
+            'symbol': stock,
             'apikey': API_KEY
         }
     )
 
     jsonResponse = stockResponse.json()
-    price = jsonResponse['Global Quote']['05. price']
+    print(jsonResponse)
+    # price = jsonResponse['Global Quote']['05. price']
 
-    results[symbol] = price
+    # stocks[symbol]['price'] = price
 
-print(results)
+print(stocks)
 
 
 purchasePrice = 26.46
