@@ -35,6 +35,9 @@ stocks = {
         'shares': 1
     }
 }
+
+totalPortfolioCost = 0
+currentPortfolioValue = 0
    
 # Populate the current prices for all stocks owned.
 for stock in stocks:
@@ -48,13 +51,27 @@ for stock in stocks:
     )
 
     jsonResponse = stockResponse.json()
-    print(jsonResponse)
-    price = jsonResponse['Global Quote']['05. price']
+    if ('Global Quote' in jsonResponse):
+        price = jsonResponse['Global Quote']['05. price']
+    else:
+        print('There\'s no quote here')
+    
 
     stocks[stock]['price'] = price
 
+    totalShares = stocks[stock]['shares']
 
-purchasePrice = 26.46
+    # Add the stock price to the currentValue
+    currentPortfolioValue = round(currentPortfolioValue + (float(price) * totalShares), 2)
+    print(f'Symbol: {stock}:')
+    print(f'---price: {price}')
+    print(f'---shares: {totalShares}')
+    print(f'---currentValue: {float(price) * totalShares}')
+    print(f'---currentPortfolioValue: {currentPortfolioValue}')
+    print('------------------------------------------------------')
+
+    # Calculate total portfolio cost.
+
 
 # if float(price) > 26.46:
 #     lightResponse = requests.put(
