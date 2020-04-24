@@ -2,11 +2,18 @@ import mysql.connector
 import datetime
 
 # Database: stock_db
-# Table: stock_data
+
+# Stock Table: stock_data
     # id: Auto
     # entryDate: datetime
-    # symbol: string
+    # symbol: varchar(10)
     # price: double
+
+# Portfolio Table: portfolio
+    # id: Auto
+    # Symbol: varchar(10)
+    # cost: double
+    # shares: int
 
 # Connect to DB
 db = mysql.connector.connect(
@@ -44,6 +51,19 @@ def getMostRecent():
     '''
     mycursor.execute(
         'SELECT entryDate, symbol, price FROM stock_data ORDER BY id DESC LIMIT 1'
+    )
+    results = mycursor.fetchall()
+    return results
+
+
+def getPortfolio():
+    '''
+        Retrieves the symbols and costs in portfolio.
+
+        @return {results[]}
+    '''
+    mycursor.execute(
+        'SELECT symbol, cost, shares FROM portfolio'
     )
     results = mycursor.fetchall()
     return results

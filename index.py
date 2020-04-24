@@ -1,5 +1,6 @@
 import requests
 from config import API_KEY, LIGHT_TOKEN
+import controller
 
 STOCK_URL = 'https://www.alphavantage.co/query'
 LIGHT_URL = 'https://api.lifx.com/v1/lights/all/state'
