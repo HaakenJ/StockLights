@@ -1,4 +1,5 @@
 import requests
+import datetime
 from config import API_KEY, LIGHT_TOKEN
 import controller
 
@@ -37,6 +38,8 @@ LIGHT_HEADERS = {
 #     }
 # }
 stocks = ['ALK', 'CCL', 'MSFT', 'GME', 'NCLH']
+portfolio = controller.getPortfolio()
+
 totalPortfolioCost = 0
 currentPortfolioValue = 0
 
@@ -57,7 +60,7 @@ for stock in stocks:
     else:
         print('There\'s no quote here')
     
-
+    controller.create(datetime.datetime.now(), stock, price)
     stocks[stock]['price'] = price
     totalShares = stocks[stock]['shares']
 

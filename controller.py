@@ -61,7 +61,7 @@ def getPortfolio():
     '''
         Retrieves the symbols and costs in portfolio.
 
-        @return {results[]}
+        @return {results[()]}
     '''
     mycursor.execute(
         'SELECT symbol, cost, shares FROM portfolio'
@@ -69,4 +69,16 @@ def getPortfolio():
     results = mycursor.fetchall()
     return results
 
-print(getPortfolio())
+def getPortfolioData(column, symbol):
+    '''
+        Retrieves the requested data of a given stock in portfolio.
+
+        @param {String} column
+        @param {String} symbol
+        @return {results()}
+    '''
+    query =  "SELECT " +column+ """ FROM portfolio WHERE symbol=%s;"""
+    params = (symbol,)
+    mycursor.execute(query, params)
+    results = mycursor.fetchall()
+    return results[0][0]
