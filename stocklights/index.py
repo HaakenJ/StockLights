@@ -54,7 +54,7 @@ def changeLightOnTotalGain():
         currentPortfolioValue += (price * totalShares)
 
 
-    if currentPortfolioValue > totalPortfolioCost:
+    if currentPortfolioValue >= totalPortfolioCost:
         lightResponse = requests.put(
             LIGHT_URL,
             data={
@@ -92,8 +92,6 @@ def changeLightOnDeltaGain():
         stockCost = controller.getMostRecent(symbol)    
         # Calculate total portfolio cost.
         priorPortfolioCost += (stockCost * totalShares)
-    
-    print(f'Prior portfolio cost = {priorPortfolioCost}')
 
     # Add records to db for each stock
     for symbol in symbols:
@@ -115,6 +113,7 @@ def changeLightOnDeltaGain():
         # Add the price data to the stock_data table.
         controller.create(datetime.datetime.now(), symbol, price)
 
+        totalShares = controller.getPortfolioData('shares', symbol)
         # Calculate the total portfolio value as of the current time.
         currentPortfolioValue += (price * totalShares)
 
@@ -128,8 +127,6 @@ def changeLightOnDeltaGain():
             },
             headers=LIGHT_HEADERS
         )
-
-        print(lightResponse.json())
     else:
         lightResponse = requests.put(
             LIGHT_URL,
@@ -140,4 +137,7 @@ def changeLightOnDeltaGain():
             },
             headers=LIGHT_HEADERS
         )
+    print(f'Prior portfolio cost: {priorPortfolioCost}')
+    print(f'Current portfolio value: {currentPortfolioValue}')
     
+changeLightOnDeltaGain()
