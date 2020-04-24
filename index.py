@@ -56,7 +56,7 @@ for symbol in symbols:
 
     jsonResponse = stockResponse.json()
     if ('Global Quote' in jsonResponse):
-        price = jsonResponse['Global Quote']['05. price']
+        price = float(jsonResponse['Global Quote']['05. price'])
     else:
         print('There\'s no quote here')
     

@@ -81,4 +81,8 @@ def getPortfolioData(column, symbol):
     params = (symbol,)
     mycursor.execute(query, params)
     results = mycursor.fetchall()
-    return results[0][0]
+
+    if column == 'cost':
+        return float(results[0][0])
+    else:
+        return int(results[0][0])
