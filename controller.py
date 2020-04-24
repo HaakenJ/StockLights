@@ -48,13 +48,13 @@ def getMostRecent(symbol):
         Retrieves the most recent record in the stocks table.
 
         @param {String} symbol
-        @return {results[]}
+        @return {results(tuple)}
     '''
     query = """SELECT entryDate, symbol, price FROM stock_data WHERE symbol=%s ORDER BY id DESC LIMIT 1;"""
     params = (symbol,)
     mycursor.execute(query, params)
     results = mycursor.fetchall()
-    return results
+    return results[0]
 
 
 def getPortfolio():
@@ -69,4 +69,4 @@ def getPortfolio():
     results = mycursor.fetchall()
     return results
 
-print(getMostRecent('ALK'))
+print(getPortfolio())
