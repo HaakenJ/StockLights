@@ -9,8 +9,8 @@ LIGHT_HEADERS = {
     'Authorization': f'Bearer {LIGHT_TOKEN}'
 }
 
-# The stocks currently owned.
-# stocks = {
+# The symbols currently owned.
+# symbols = {
 #     'ALK': {
 #         'price': 0,
 #         'cost': 26.46,
@@ -37,19 +37,19 @@ LIGHT_HEADERS = {
 #         'shares': 1
 #     }
 # }
-stocks = ['ALK', 'CCL', 'MSFT', 'GME', 'NCLH']
+symbols = ['ALK', 'CCL', 'MSFT', 'GME', 'NCLH']
 portfolio = controller.getPortfolio()
 
 totalPortfolioCost = 0
 currentPortfolioValue = 0
 
 # Add records to db for each stock
-for stock in stocks:
+for symbol in symbols:
     stockResponse = requests.get(
         STOCK_URL,
         params={
             'function': 'GLOBAL_QUOTE',
-            'symbol': stock,
+            'symbol': symbol,
             'apikey': API_KEY
         }
     )
@@ -60,26 +60,16 @@ for stock in stocks:
     else:
         print('There\'s no quote here')
     
-    controller.create(datetime.datetime.now(), stock, price)
-    stocks[stock]['price'] = price
-    totalShares = stocks[stock]['shares']
+    # Add the price data to the stock_data table.
+    controller.create(datetime.datetime.now(), symbol, price)
+
+    totalShares = controller.getPortfolioData('shares', symbol)
+    stockCost = controller.getPortfolioData('cost', symbol)
 
     # Calculate total portfolio cost.
-    totalPortfolioCost += (stocks[stock]['cost'] * totalShares)
-
-    # Add the stock price to the currentValue
-    currentPortfolioValue = round(currentPortfolioValue + (float(price) * totalShares), 2)
-    print(f'Symbol: {stock}:')
-    print(f'---price: {price}')
-    print(f'---shares: {totalShares}')
-    print(f'---currentValue: {float(price) * totalShares}')
-    print(f'---currentPortfolioValue: {currentPortfolioValue}')
-    print(f'---totalPortfolioCost: {totalPortfolioCost}')
-    print('------------------------------------------------------')
-
-print(f'---currentPortfolioValue: {currentPortfolioValue}')
-print(f'---totalPortfolioCost: {totalPortfolioCost}')
-print('------------------------------------------------------')
+    totalPortfolioCost += (stockCost * totalShares)
+    # Calculate the total portfolio value as of the current time.
+    currentPortfolioValue += (price * totalShares)
 
 
 if currentPortfolioValue > totalPortfolioCost:
