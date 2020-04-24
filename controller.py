@@ -45,26 +45,25 @@ def create(time, symbol, price):
 
 def getMostRecent(symbol):
     '''
-        Retrieves the most recent record in the stocks table.
+        Retrieves the price of the most recent record in the stocks table.
 
         @param {String} symbol
         @return {results(tuple)}
     '''
-    query = """SELECT entryDate, symbol, price FROM stock_data WHERE symbol=%s ORDER BY id DESC LIMIT 1;"""
+    query = """SELECT price FROM stock_data WHERE symbol=%s ORDER BY id DESC LIMIT 1;"""
     params = (symbol,)
     mycursor.execute(query, params)
     results = mycursor.fetchall()
-    return results[0]
+    return float(results[0][0])
 
-
-def getPortfolio():
+def getPortfolioSymbols():
     '''
-        Retrieves the symbols and costs in portfolio.
+        Retrieves the symbols in portfolio.
 
         @return {results[()]}
     '''
     mycursor.execute(
-        'SELECT symbol, cost, shares FROM portfolio'
+        'SELECT symbol FROM portfolio'
     )
     results = mycursor.fetchall()
     return results
