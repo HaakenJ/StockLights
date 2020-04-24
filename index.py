@@ -71,7 +71,8 @@ for symbol in symbols:
     # Calculate the total portfolio value as of the current time.
     currentPortfolioValue += (price * totalShares)
 
-
+# Display green or red light depending on if total portfolio is
+# postive or negative.
 if currentPortfolioValue > totalPortfolioCost:
     lightResponse = requests.put(
         LIGHT_URL,
