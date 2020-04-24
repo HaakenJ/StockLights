@@ -9,38 +9,38 @@ LIGHT_HEADERS = {
 }
 
 # The stocks currently owned.
-stocks = {
-    'ALK': {
-        'price': 0,
-        'cost': 26.46,
-        'shares': 14
-    },
-    'CCL': {
-        'price': 0,
-        'cost': 11.90,
-        'shares': 10
-    },
-    'MSFT': {
-        'price': 0,
-        'cost': 159.00,
-        'shares': 2
-    },
-    'GME': {
-        'price': 0,
-        'cost': 4.66,
-        'shares': 1
-    },
-    'NCLH': {
-        'price': 0,
-        'cost': 11.40,
-        'shares': 1
-    }
-}
-
+# stocks = {
+#     'ALK': {
+#         'price': 0,
+#         'cost': 26.46,
+#         'shares': 14
+#     },
+#     'CCL': {
+#         'price': 0,
+#         'cost': 11.90,
+#         'shares': 10
+#     },
+#     'MSFT': {
+#         'price': 0,
+#         'cost': 159.00,
+#         'shares': 2
+#     },
+#     'GME': {
+#         'price': 0,
+#         'cost': 4.66,
+#         'shares': 1
+#     },
+#     'NCLH': {
+#         'price': 0,
+#         'cost': 11.40,
+#         'shares': 1
+#     }
+# }
+stocks = ['ALK', 'CCL', 'MSFT', 'GME', 'NCLH']
 totalPortfolioCost = 0
 currentPortfolioValue = 0
-   
-# Populate the current prices for all stocks owned.
+
+# Add records to db for each stock
 for stock in stocks:
     stockResponse = requests.get(
         STOCK_URL,

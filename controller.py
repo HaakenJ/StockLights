@@ -43,15 +43,16 @@ def create(time, symbol, price):
     print(mycursor.rowcount, 'record inserted.')
 
 
-def getMostRecent():
+def getMostRecent(symbol):
     '''
         Retrieves the most recent record in the stocks table.
 
+        @param {String} symbol
         @return {results[]}
     '''
-    mycursor.execute(
-        'SELECT entryDate, symbol, price FROM stock_data ORDER BY id DESC LIMIT 1'
-    )
+    query = """SELECT entryDate, symbol, price FROM stock_data WHERE symbol=%s ORDER BY id DESC LIMIT 1;"""
+    params = (symbol,)
+    mycursor.execute(query, params)
     results = mycursor.fetchall()
     return results
 
@@ -67,3 +68,5 @@ def getPortfolio():
     )
     results = mycursor.fetchall()
     return results
+
+print(getMostRecent('ALK'))
