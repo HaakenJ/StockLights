@@ -118,4 +118,26 @@ def changeLightOnDeltaGain():
         # Calculate the total portfolio value as of the current time.
         currentPortfolioValue += (price * totalShares)
 
+    if currentPortfolioValue >= priorPortfolioCost:
+        lightResponse = requests.put(
+            LIGHT_URL,
+            data={
+                'power': 'on',
+                'color': 'green',
+                'brightness': 0.1
+            },
+            headers=LIGHT_HEADERS
+        )
+
+        print(lightResponse.json())
+    else:
+        lightResponse = requests.put(
+            LIGHT_URL,
+            data={
+                'power': 'on',
+                'color': 'red',
+                'brightness': 0.1
+            },
+            headers=LIGHT_HEADERS
+        )
     
