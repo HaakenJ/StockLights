@@ -20,10 +20,10 @@ db = mysql.connector.connect(
     host='localhost',
     user='root',
     password='kramer',
-    database='stock_db',
+    database='stock_db'
 )
 # Create cursor object
-mycursor = db.cursor()
+cursor = db.cursor()
 
 
 
@@ -36,11 +36,11 @@ def create(time, symbol, price):
         @param {Double} price
         @return {None}
     '''
-    mycursor.execute(
+    cursor.execute(
         f'INSERT INTO stock_data (entryDate, symbol, price) VALUES ("{time}", "{symbol}", {price});'
     )
     db.commit()
-    print(mycursor.rowcount, 'record inserted.')
+    print(cursor.rowcount, 'record inserted.')
 
 
 def getMostRecent(symbol):
@@ -52,8 +52,8 @@ def getMostRecent(symbol):
     '''
     query = """SELECT price FROM stock_data WHERE symbol=%s ORDER BY id DESC LIMIT 1;"""
     params = (symbol,)
-    mycursor.execute(query, params)
-    results = mycursor.fetchall()
+    cursor.execute(query, params)
+    results = cursor.fetchall()
     return float(results[0][0])
 
 def getPortfolioSymbols():
@@ -62,10 +62,10 @@ def getPortfolioSymbols():
 
         @return {results[()]}
     '''
-    mycursor.execute(
+    cursor.execute(
         'SELECT symbol FROM portfolio'
     )
-    results = mycursor.fetchall()
+    results = cursor.fetchall()
     return results
 
 def getPortfolioData(column, symbol):
@@ -78,8 +78,8 @@ def getPortfolioData(column, symbol):
     '''
     query =  "SELECT " +column+ """ FROM portfolio WHERE symbol=%s;"""
     params = (symbol,)
-    mycursor.execute(query, params)
-    results = mycursor.fetchall()
+    cursor.execute(query, params)
+    results = cursor.fetchall()
 
     if column == 'cost':
         return float(results[0][0])

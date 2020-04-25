@@ -1,0 +1,35 @@
+import mysql.connector
+
+# This is the schema to set up the proper database and 
+# tables for the application.
+
+db = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='kramer',
+    database='stock_db'
+)
+
+cursor = db.cursor()
+
+cursor.execute('CREATE DATABASE IF NOT EXISTS stock_db;')
+cursor.execute('USE stock_db;')
+cursor.execute("""
+CREATE TABLE stock_data (
+	id INT NOT NULL AUTO_INCREMENT,
+	entryDate DATETIME,
+    symbol VARCHAR(10) NOT NULL,
+    price DOUBLE NOT NULL,
+    PRIMARY KEY (id)
+);
+""")
+cursor.execute("""
+CREATE TABLE portfolio (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    symbol VARCHAR(10) NOT NULL,
+    cost DOUBLE NOT NULL,
+    shares INT NOT NULL
+);
+""")
+
+db.commit()
