@@ -108,7 +108,8 @@ def changeLightOnDeltaGain():
         if ('Global Quote' in jsonResponse):
             price = float(jsonResponse['Global Quote']['05. price'])
         else:
-            print('There\'s no quote here')
+            print(f'There\'s no quote for {symbol}')
+            price = 0
         
         # Add the price data to the stock_data table.
         controller.create(datetime.datetime.now(), symbol, price)
