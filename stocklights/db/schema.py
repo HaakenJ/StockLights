@@ -33,3 +33,4 @@ CREATE TABLE IF NOT EXISTS portfolio (
 """)
 
 db.commit()
+print('Database and tables successfully created. (or already existed)')

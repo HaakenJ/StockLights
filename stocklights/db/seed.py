@@ -26,3 +26,4 @@ query = 'INSERT INTO portfolio (symbol, cost, shares) VALUES (%s, %s, %s)'
 cursor.executemany(query, parameters)
 
 db.commit()
+print(cursor.rowcount, 'record inserted.')
