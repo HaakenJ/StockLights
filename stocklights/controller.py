@@ -18,7 +18,7 @@ import datetime
 # Connect to DB
 db = mysql.connector.connect(
     host='localhost',
-    user='root',
+    user='kramer',
     password='kramer',
     database='stock_db'
 )

@@ -7,7 +7,7 @@ setup(name='stocklights',
       author='HaakenJ',
       author_email='haaken1234@gmail.com',
       license='MIT',
-      packages=['funniest'],
+      packages=['stocklights'],
       install_requires=[
             'requests',
             'mysql-connector-python'
