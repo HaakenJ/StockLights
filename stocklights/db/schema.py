@@ -3,11 +3,19 @@ import mysql.connector
 # This is the schema to set up the proper database and 
 # tables for the application.
 
+#try:
+#    db = mysql.connector.connect(
+#        host='localhost',
+#        user='root',
+#        password='kramer',
+#        database='stock_db'
+#    )
+#except:
 db = mysql.connector.connect(
     host='localhost',
-    user='root',
+    user='kramer',
     password='kramer',
-    database='stock_db'
+    database='stock_ db'
 )
 
 cursor = db.cursor()
