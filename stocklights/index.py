@@ -139,5 +139,11 @@ def changeLightOnDeltaGain():
         )
     print(f'Prior portfolio cost: {priorPortfolioCost}')
     print(f'Current portfolio value: {currentPortfolioValue}')
-    
-changeLightOnDeltaGain()
+
+# If the application is being run for the first time there will be no recent
+# data to base the delta gain on.  In this case the total gain function will
+# be run and the table will be populated.
+try:
+    changeLightOnDeltaGain()
+except:
+    changeLightOnTotalGain()
