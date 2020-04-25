@@ -19,15 +19,10 @@ parameters = [
     ('CCL', 11.90, 10),
     ('MSFT', 159.00, 2),
     ('GME', 4.66, 1),
-    ('NCLH', 11.40, 1);
+    ('NCLH', 11.40, 1)
 ]
+query = 'INSERT INTO portfolio (symbol, cost, shares) VALUES (%s, %s, %s)'
 
-cursor.executemany("""
-    INSERT INTO portfolio (symbol, cost, shares) 
-    VALUES 
-	    ("ALK", 26.46, 14),
-        ("CCL", 11.90, 10),
-        ("MSFT", 159.00, 2),
-        ("GME", 4.66, 1),
-        ("NCLH", 11.40, 1);
-""")
+cursor.executemany(query, parameters)
+
+db.commit()
