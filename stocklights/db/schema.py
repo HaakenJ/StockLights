@@ -15,7 +15,7 @@ cursor = db.cursor()
 cursor.execute('CREATE DATABASE IF NOT EXISTS stock_db;')
 cursor.execute('USE stock_db;')
 cursor.execute("""
-CREATE TABLE stock_data (
+CREATE TABLE IF NOT EXISTS stock_data (
 	id INT NOT NULL AUTO_INCREMENT,
 	entryDate DATETIME,
     symbol VARCHAR(10) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE stock_data (
 );
 """)
 cursor.execute("""
-CREATE TABLE portfolio (
+CREATE TABLE IF NOT EXISTS portfolio (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     symbol VARCHAR(10) NOT NULL,
     cost DOUBLE NOT NULL,
