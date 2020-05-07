@@ -16,7 +16,7 @@ cursor = db.cursor()
 
 parameters = [
     ('ALK', 26.46, 14),
-    ('CCL', 11.90, 10),
+    ('PENN', 16.15, 8),
     ('MSFT', 159.00, 2),
     ('NCLH', 11.40, 1),
     ('MARK', 1.04, 300)
