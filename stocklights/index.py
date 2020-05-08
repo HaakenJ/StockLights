@@ -148,3 +148,7 @@ try:
     changeLightOnDeltaGain()
 except:
     changeLightOnTotalGain()
+
+
+
+# TODO - Create a function to change the light based on gain since the prior day.
