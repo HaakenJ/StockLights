@@ -16,10 +16,11 @@ cursor = db.cursor()
 
 parameters = [
     ('ALK', 26.46, 14),
-    ('PENN', 16.15, 8),
+    ('PENN', 16.15, 12),
     ('MSFT', 159.00, 2),
-    ('NCLH', 11.40, 1),
-    ('MARK', 1.04, 300)
+    ('MVIS', 1.02, 423),
+    ('VTIQ', 28.75, 8),
+    ('ERI', 28, 10)
 ]
 query = 'INSERT INTO portfolio (symbol, cost, shares) VALUES (%s, %s, %s)'
 
