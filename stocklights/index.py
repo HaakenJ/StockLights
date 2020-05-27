@@ -191,13 +191,15 @@ def getCurrentPortfolioValue(addRecords):
 
 
 
-# If the application is being run for the first time there will be no recent
-# data to base the delta gain on.  In this case the total gain function will
-# be run and the table will be populated.
-try:
-    changeLightOnDeltaGain()
-except:
-    changeLightOnTotalGain()
+if __name__ == "__main__":
+    # If the application is being run for the first time there will be no recent
+    # data to base the delta gain on.  In this case the total gain function will
+    # be run and the table will be populated.
+    try:
+        changeLightOnDeltaGain()
+    except:
+        changeLightOnTotalGain()
+
 
 
 
