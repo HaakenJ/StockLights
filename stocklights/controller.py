@@ -15,6 +15,11 @@ import datetime
     # cost: double
     # shares: int
 
+# Prior Day Table: prior_day
+    # id: Auto
+    # entryDate: datetime
+    # portfolio_value: double
+
 # Connect to DB
 db = mysql.connector.connect(
     host='localhost',
@@ -27,7 +32,7 @@ cursor = db.cursor()
 
 
 
-def create(time, symbol, price):
+def createStockRecord(time, symbol, price):
     '''
         Creates a new record in the stocks table.
 
@@ -42,10 +47,24 @@ def create(time, symbol, price):
     db.commit()
     print(cursor.rowcount, 'record inserted.')
 
+def createEndOfDayRecord(time, value):
+    '''
+        Creates a new record in the prior_day table
+
+        @param {Datetime} time
+        @param {Double} value
+        @return {None}
+    '''
+    cursor.execute(
+        f'INSERT INTO prior_day (entryDate, value) VALUES ("{time}", "{value}");'
+    )
+    db.commit()
+    print(cursor.rowcount, 'record inserted.')
+
 
 def getMostRecent(symbol):
     '''
-        Retrieves the price of the most recent record in the stocks table.
+        Retrieves the price of the most recent record in stock_data.
 
         @param {String} symbol
         @return {results(tuple)}
@@ -85,3 +104,17 @@ def getPortfolioData(column, symbol):
         return float(results[0][0])
     else:
         return int(results[0][0])
+
+def getPriorDayValue():
+    '''
+        Retrieves portfolio value from the prior day.
+
+        @return {Double} prior day value
+    '''
+    query = """SELECT value FROM prior_day ORDER BY id DESC LIMIT 1;"""
+    cursor.execute(query)
+    results = cursor.fetchall()
+    return float(results[0][0])
+
+if __name__ == "__main__":
+    print(getPriorDayValue())

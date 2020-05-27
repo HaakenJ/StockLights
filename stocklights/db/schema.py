@@ -31,12 +31,21 @@ CREATE TABLE IF NOT EXISTS stock_data (
     PRIMARY KEY (id)
 );
 """)
+
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS portfolio (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     symbol VARCHAR(10) NOT NULL,
     cost DOUBLE NOT NULL,
     shares INT NOT NULL
+);
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS prior_day (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    entryDate DATETIME,
+    value DOUBLE NOT NULL
 );
 """)
 

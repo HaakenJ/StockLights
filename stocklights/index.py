@@ -43,7 +43,7 @@ def changeLightOnTotalGain():
             print('There\'s no quote here')
         
         # Add the price data to the stock_data table.
-        controller.create(datetime.datetime.now(), symbol, price)
+        controller.createStockRecord(datetime.datetime.now(), symbol, price)
 
         totalShares = controller.getPortfolioData('shares', symbol)
         stockCost = controller.getPortfolioData('cost', symbol)
@@ -83,7 +83,7 @@ def changeLightOnDeltaGain():
         has made gains or losses since the last check.
     '''
     priorPortfolioCost = 0
-    currentPortfolioValue = 0
+    currentPortfolioValue = getCurrentPortfolioValue(True)
     symbols = getSymbolsArr()
 
     for symbol in symbols:
@@ -92,31 +92,6 @@ def changeLightOnDeltaGain():
         stockCost = controller.getMostRecent(symbol)    
         # Calculate total portfolio cost.
         priorPortfolioCost += (stockCost * totalShares)
-
-    # Add records to db for each stock
-    for symbol in symbols:
-        stockResponse = requests.get(
-            STOCK_URL,
-            params={
-                'function': 'GLOBAL_QUOTE',
-                'symbol': symbol,
-                'apikey': API_KEY
-            }
-        )
-
-        jsonResponse = stockResponse.json()
-        if ('Global Quote' in jsonResponse):
-            price = float(jsonResponse['Global Quote']['05. price'])
-        else:
-            print(f'There\'s no quote for {symbol}')
-            price = 0
-        
-        # Add the price data to the stock_data table.
-        controller.create(datetime.datetime.now(), symbol, price)
-
-        totalShares = controller.getPortfolioData('shares', symbol)
-        # Calculate the total portfolio value as of the current time.
-        currentPortfolioValue += (price * totalShares)
 
     if currentPortfolioValue >= priorPortfolioCost:
         lightResponse = requests.put(
@@ -140,6 +115,83 @@ def changeLightOnDeltaGain():
         )
     print(f'Prior portfolio cost: {priorPortfolioCost}')
     print(f'Current portfolio value: {currentPortfolioValue}')
+
+
+def changeLightOnPriorDay():
+    '''
+        Change the light color to red or green depending on if the portfolio
+        has made gains or losses since the prior day.
+    '''
+    # Get prior day's portfolio value
+    priorDayPortfolioValue = controller.getPriorDayValue()
+    currentPortfolioValue = getCurrentPortfolioValue(False)
+
+    if currentPortfolioValue >= priorDayPortfolioValue:
+        lightResponse = requests.put(
+            LIGHT_URL,
+            data={
+                'power': 'on',
+                'color': 'green',
+                'brightness': 0.1
+            },
+            headers=LIGHT_HEADERS
+        )
+    else:
+        lightResponse = requests.put(
+            LIGHT_URL,
+            data={
+                'power': 'on',
+                'color': 'red',
+                'brightness': 0.1
+            },
+            headers=LIGHT_HEADERS
+        )
+    print(f'Prior portfolio cost: {priorDayPortfolioValue}')
+    print(f'Current portfolio value: {currentPortfolioValue}')
+
+
+def updateEODValue():
+
+def getCurrentPortfolioValue(addRecords):
+    '''
+        Returns the current value of the client's portfolio with an optional
+        flag to add the data to the stock_db.
+
+        @param {Boolean} addRecords
+        @return {Double} value
+    '''
+    currentPortfolioValue = 0
+    symbols = getSymbolsArr()
+
+    # Add records to db for each stock
+    for symbol in symbols:
+        stockResponse = requests.get(
+            STOCK_URL,
+            params={
+                'function': 'GLOBAL_QUOTE',
+                'symbol': symbol,
+                'apikey': API_KEY
+            }
+        )
+
+        jsonResponse = stockResponse.json()
+        if ('Global Quote' in jsonResponse):
+            price = float(jsonResponse['Global Quote']['05. price'])
+        else:
+            print(f'There\'s no quote for {symbol}')
+            price = 0
+
+        if (addRecords):
+            # Add the price data to the stock_data table.
+            controller.createStockRecord(datetime.datetime.now(), symbol, price)
+
+        totalShares = controller.getPortfolioData('shares', symbol)
+        # Calculate the total portfolio value as of the current time.
+        currentPortfolioValue += (price * totalShares)
+
+    return currentPortfolioValue
+
+
 
 # If the application is being run for the first time there will be no recent
 # data to base the delta gain on.  In this case the total gain function will
