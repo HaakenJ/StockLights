@@ -45,7 +45,7 @@ def createStockRecord(time, symbol, price):
         f'INSERT INTO stock_data (entryDate, symbol, price) VALUES ("{time}", "{symbol}", {price});'
     )
     db.commit()
-    print(cursor.rowcount, 'record inserted.')
+    print(cursor.rowcount, 'record inserted into stock_data.')
 
 def createEndOfDayRecord(time, value):
     '''
