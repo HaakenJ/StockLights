@@ -149,9 +149,6 @@ def changeLightOnPriorDay():
     print(f'Prior portfolio cost: {priorDayPortfolioValue}')
     print(f'Current portfolio value: {currentPortfolioValue}')
 
-
-def updateEODValue():
-
 def getCurrentPortfolioValue(addRecords):
     '''
         Returns the current value of the client's portfolio with an optional
