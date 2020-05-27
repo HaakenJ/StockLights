@@ -3,7 +3,7 @@ import datetime
 from config import API_KEY, LIGHT_TOKEN
 import controller
 
-STOCK_URL = 'https://www.alphavantage.co/query'
+STOCK_URL = 'https://finnhub.io/api/v1/quote'
 LIGHT_URL = 'https://api.lifx.com/v1/lights/all/state'
 LIGHT_HEADERS = {
     'Authorization': f'Bearer {LIGHT_TOKEN}'
@@ -30,17 +30,16 @@ def changeLightOnTotalGain():
         stockResponse = requests.get(
             STOCK_URL,
             params={
-                'function': 'GLOBAL_QUOTE',
                 'symbol': symbol,
-                'apikey': API_KEY
+                'token': API_KEY
             }
         )
 
         jsonResponse = stockResponse.json()
-        if ('Global Quote' in jsonResponse):
-            price = float(jsonResponse['Global Quote']['05. price'])
-        else:
-            print('There\'s no quote here')
+        try:
+            price = float(jsonResponse['c'])
+        except:
+            print('This call did not return a proper response.')
         
         # Add the price data to the stock_data table.
         controller.createStockRecord(datetime.datetime.now(), symbol, price)
