@@ -1,6 +1,6 @@
 import datetime
 import controller
-import index
+from index import getCurrentPortfolioValue
 
 def updateEODValue():
     currentPortfolioValue = getCurrentPortfolioValue(False)
