@@ -24,6 +24,7 @@ parameters = [
 ]
 query = 'INSERT INTO portfolio (symbol, cost, shares) VALUES (%s, %s, %s)'
 
+cursor.execute('DELETE FROM portfolio')
 cursor.executemany(query, parameters)
 
 db.commit()
