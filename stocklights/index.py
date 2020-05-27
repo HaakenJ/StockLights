@@ -125,8 +125,8 @@ def changeLightOnPriorDay():
     priorDayPortfolioValue = controller.getPriorDayValue()
     currentPortfolioValue = getCurrentPortfolioValue(False)
 
-    print('Prior day value: ' + priorDayPortfolioValue)
-    print('Current Value: ' + currentPortfolioValue)
+    print('Prior day value: ' + str(priorDayPortfolioValue))
+    print('Current Value: ' + str(currentPortfolioValue))
 
     if currentPortfolioValue >= priorDayPortfolioValue:
         lightResponse = requests.put(
@@ -138,6 +138,7 @@ def changeLightOnPriorDay():
             },
             headers=LIGHT_HEADERS
         )
+        print('Turning the light green.')
     else:
         lightResponse = requests.put(
             LIGHT_URL,
@@ -148,8 +149,7 @@ def changeLightOnPriorDay():
             },
             headers=LIGHT_HEADERS
         )
-    print(f'Prior portfolio cost: {priorDayPortfolioValue}')
-    print(f'Current portfolio value: {currentPortfolioValue}')
+        print('Turning the light red.')
 
 def getCurrentPortfolioValue(addRecords):
     '''
@@ -192,10 +192,9 @@ def getCurrentPortfolioValue(addRecords):
 
 
 if __name__ == "__main__":
-    # If the application is being run for the first time there will be no recent
-    # data to base the delta gain on.  In this case the total gain function will
-    # be run and the table will be populated.
-    try:
-        changeLightOnDeltaGain()
-    except:
-        changeLightOnTotalGain()
+    changeLightOnPriorDay()
+#    try:
+#        changeLightOnPriorDay()
+#    except:
+#        print('There was an error with the prior day function')
+#        changeLightOnTotalGain()
