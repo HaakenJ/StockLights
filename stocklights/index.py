@@ -164,17 +164,16 @@ def getCurrentPortfolioValue(addRecords):
         stockResponse = requests.get(
             STOCK_URL,
             params={
-                'function': 'GLOBAL_QUOTE',
                 'symbol': symbol,
-                'apikey': API_KEY
+                'token': API_KEY
             }
         )
 
         jsonResponse = stockResponse.json()
-        if ('Global Quote' in jsonResponse):
-            price = float(jsonResponse['Global Quote']['05. price'])
-        else:
-            print(f'There\'s no quote for {symbol}')
+        try:
+            price = float(jsonResponse['c'])
+        except:
+            print('This call did not return a proper response.')
             price = 0
 
         if (addRecords == True):
