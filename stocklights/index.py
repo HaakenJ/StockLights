@@ -125,6 +125,9 @@ def changeLightOnPriorDay():
     priorDayPortfolioValue = controller.getPriorDayValue()
     currentPortfolioValue = getCurrentPortfolioValue(False)
 
+    print('Prior day value: ' + priorDayPortfolioValue)
+    print('Current Value: ' + currentPortfolioValue)
+
     if currentPortfolioValue >= priorDayPortfolioValue:
         lightResponse = requests.put(
             LIGHT_URL,
