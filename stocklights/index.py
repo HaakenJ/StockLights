@@ -177,7 +177,8 @@ def getCurrentPortfolioValue(addRecords):
         else:
             print(f'There\'s no quote for {symbol}')
             price = 0
-
+        
+        print (addRecords)
         if (addRecords == True):
             # Add the price data to the stock_data table.
             controller.createStockRecord(datetime.datetime.now(), symbol, price)
