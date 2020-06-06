@@ -189,10 +189,50 @@ def getCurrentPortfolioValue(addRecords):
 
     return currentPortfolioValue
 
+def changeLightOnSingleStock(symbol, targetPrice):
+    stockResponse = requests.get(
+        STOCK_URL,
+        params={
+            'symbol': symbol,
+            'token': API_KEY
+        }
+    )
+
+    jsonResponse = stockResponse.json()
+    try:
+        price = float(jsonResponse.json['c'])
+    except:
+        print('This call did not return a proper response.')
+        price = 0
+
+    if price >= targetPrice:
+        lightResponse = requests.put(
+            LIGHT_URL,
+            data={
+                'power': 'on',
+                'color': 'green',
+                'brightness': 0.5
+            },
+            headers=LIGHT_HEADERS
+        )
+        print('Turning the light green.')
+    else:
+        lightResponse = requests.put(
+            LIGHT_URL,
+            data={
+                'power': 'on',
+                'color': 'red',
+                'brightness': 0.5
+            },
+            headers=LIGHT_HEADERS
+        )
+        print('Turning the light red.')
+
 
 
 if __name__ == "__main__":
-    changeLightOnPriorDay()
+    # changeLightOnPriorDay()
+    changeLightOnSingleStock('GNUS', 7.03)
 #    try:
 #        changeLightOnPriorDay()
 #    except:
