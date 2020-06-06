@@ -40,7 +40,6 @@ def changeLightOnTotalGain():
             price = float(jsonResponse['c'])
         except:
             print('This call did not return a proper response.')
-        
         # Add the price data to the stock_data table.
         controller.createStockRecord(datetime.datetime.now(), symbol, price)
 
@@ -199,10 +198,11 @@ def changeLightOnSingleStock(symbol, targetPrice):
     )
 
     jsonResponse = stockResponse.json()
+
     try:
-        price = float(jsonResponse.json['c'])
+        price = float(jsonResponse['c'])
     except:
-        print('This call did not return a proper response.')
+        print('This call did not return a proper price response.')
         price = 0
 
     if price >= targetPrice:
