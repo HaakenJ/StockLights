@@ -19,9 +19,8 @@ parameters = [
     ('PENN', 16.15, 12),
     ('MSFT', 159.00, 2),
     ('MVIS', 1.02, 423),
-    ('ERI', 28, 10),
+    ('ERI', 29, 10),
     ('GNUS', 7.03, 52),
-    ('VISL', 1.39, 47),
     ('EVFM', 3.29, 53)
 ]
 query = 'INSERT INTO portfolio (symbol, cost, shares) VALUES (%s, %s, %s)'
